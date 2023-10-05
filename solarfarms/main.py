@@ -33,5 +33,10 @@ async def root():
 
 
 @app.get("/farms/{farm_id}", responses={404: {"detail": "Farm not found."}})
-async def farms(farm_id: int, db: Session = Depends(get_db)):
+async def get_farm_by_id(farm_id: int, db: Session = Depends(get_db)):
     return crud.get_farm(db, farm_id)
+
+
+@app.get("/farms/")
+async def get_farms_by_state(state: str, db: Session = Depends(get_db)):
+    return crud.get_farms_by_state(db, state)

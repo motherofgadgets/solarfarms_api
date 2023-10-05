@@ -3,7 +3,7 @@ import json
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from solarfarms import models, schemas
+from solarfarms import models
 
 
 def get_farm(db: Session, farm_id: int):
@@ -17,18 +17,11 @@ def get_farm_count(db: Session):
     return db.query(models.Farm).count()
 
 
-def create_farm(db: Session, farm: schemas.Farm):
-    db_farm = models.Farm(
-        name=farm.name,
-        capacity_kw=farm.capacity_kw,
-        address=farm.address,
-        city=farm.city,
-        state=farm.state,
-        zip=farm.zip,
-    )
-    db.add(db_farm)
-    db.commit()
-    db.refresh(db_farm)
+def get_farms_by_state(db: Session, state: str):
+    db_farms = db.query(models.Farm).filter(models.Farm.state == state).all()
+    if not db_farms:
+        raise HTTPException(status_code=404, detail="Farm not found.")
+    return db_farms
 
 
 def load_farms_bulk(db: Session):
