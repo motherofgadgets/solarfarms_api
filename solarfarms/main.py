@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, Query
 from sqlalchemy.orm import Session
 
 from solarfarms import crud, models
@@ -38,5 +38,14 @@ async def get_farm_by_id(farm_id: int, db: Session = Depends(get_db)):
 
 
 @app.get("/farms/")
-async def get_farms_by_state(state: str, db: Session = Depends(get_db)):
-    return crud.get_farms_by_state(db, state)
+async def filter_farms(
+        state: str = Query(None),
+        min_capacity: float = Query(None),
+        max_capacity: float = Query(None),
+        db: Session = Depends(get_db)
+):
+    if state:
+        return crud.get_farms_by_state(db, state)
+    if min_capacity is not None or max_capacity is not None:
+        return crud.get_farms_by_capacity_range(db, min_capacity, max_capacity)
+
