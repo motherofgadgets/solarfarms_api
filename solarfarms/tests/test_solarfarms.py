@@ -78,7 +78,7 @@ def test_get_farms_btw_max_and_min_capacity():
                 "address": "1 Westchester Park Drive",
                 "city": "Harrison",
                 "state": "NY",
-                "zip": "10604"
+                "zip": "10604",
             },
             {
                 "id": 56,
@@ -87,7 +87,7 @@ def test_get_farms_btw_max_and_min_capacity():
                 "address": "55 Murphy Drive",
                 "city": "Avon",
                 "state": "MA",
-                "zip": "02322"
+                "zip": "02322",
             },
             {
                 "id": 176,
@@ -96,7 +96,7 @@ def test_get_farms_btw_max_and_min_capacity():
                 "address": "0 Lewis Farm Road",
                 "city": "Coventry",
                 "state": "RI",
-                "zip": "02827"
+                "zip": "02827",
             },
         ]
 
@@ -113,7 +113,7 @@ def test_get_farms_min_capacity_only():
                 "address": "271 Brodie Mountain Road",
                 "city": "Hancock",
                 "state": "MA",
-                "zip": "01237"
+                "zip": "01237",
             },
             {
                 "id": 150,
@@ -122,7 +122,7 @@ def test_get_farms_min_capacity_only():
                 "address": "1180 Ashby State Road",
                 "city": "Fitchburg",
                 "state": "MA",
-                "zip": "02132"
+                "zip": "02132",
             },
         ]
 
@@ -139,7 +139,7 @@ def test_get_farms_max_capacity_only():
                 "address": "100 Factory Street",
                 "city": "West Warwick",
                 "state": "RI",
-                "zip": "02893"
+                "zip": "02893",
             },
             {
                 "id": 33,
@@ -148,7 +148,7 @@ def test_get_farms_max_capacity_only():
                 "address": "1 Westchester Park Drive",
                 "city": "Harrison",
                 "state": "NY",
-                "zip": "10604"
+                "zip": "10604",
             },
             {
                 "id": 52,
@@ -157,8 +157,8 @@ def test_get_farms_max_capacity_only():
                 "address": "Lot 44-1 Stilson Road",
                 "city": "Richmond",
                 "state": "RI",
-                "zip": "02898"
-            }
+                "zip": "02898",
+            },
         ]
 
 

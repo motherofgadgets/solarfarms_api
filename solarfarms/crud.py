@@ -28,7 +28,9 @@ def get_farms_by_capacity_range(db: Session, min_capacity: int, max_capacity: in
     db_farms = db.query(models.Farm)
     if min_capacity is not None and max_capacity is not None:
         if min_capacity >= max_capacity:
-            raise HTTPException(status_code=400, detail="min_capacity should be less than max_capacity")
+            raise HTTPException(
+                status_code=400, detail="min_capacity should be less than max_capacity"
+            )
     if min_capacity is not None:
         db_farms = db_farms.filter(models.Farm.capacity_kw >= min_capacity)
     if max_capacity is not None:

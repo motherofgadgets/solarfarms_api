@@ -5,10 +5,6 @@ class FarmBase(BaseModel):
     pass
 
 
-class FarmCreate(FarmBase):
-    pass
-
-
 class Farm(FarmBase):
     id: int
     name: str
