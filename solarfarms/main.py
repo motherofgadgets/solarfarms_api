@@ -32,6 +32,6 @@ async def root():
     return {"message": "Welcome to the Solar Farms Application!"}
 
 
-@app.get("/farms/{farm_id}")
+@app.get("/farms/{farm_id}", responses={404: {"detail": "Farm not found."}})
 async def farms(farm_id: int, db: Session = Depends(get_db)):
     return crud.get_farm(db, farm_id)
