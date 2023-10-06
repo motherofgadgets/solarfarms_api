@@ -11,6 +11,12 @@ from solarfarms import models
 
 
 def get_farm(db: Session, farm_id: int):
+    """
+    Gets a single Farm by its ID
+    :param db: database connection
+    :param farm_id: The numeric Farm ID
+    :return: The details for the Farm selected
+    """
     db_farm = db.query(models.Farm).filter(models.Farm.id == farm_id).first()
     if not db_farm:
         raise HTTPException(status_code=404, detail="Farm not found.")
@@ -18,14 +24,30 @@ def get_farm(db: Session, farm_id: int):
 
 
 def get_farm_count(db: Session):
+    """
+    Counts how many Farm entries are in the current database.
+    :param db: database connection
+    :return: Number of Farms in the database
+    """
     return db.query(models.Farm).count()
 
 
 def get_daily_energy_count(db: Session):
+    """
+    Counts how many DailyEnergy entries are in the current database.
+    :param db: database connection
+    :return: Number of DailyEnergy items in the database
+    """
     return db.query(models.DailyEnergy).count()
 
 
 def get_farms_by_state(db: Session, state: str):
+    """
+    Returns all Farms in the given state
+    :param db: database connection
+    :param state: 2-letter state abbreviation
+    :return: List of all Farms in the given state
+    """
     db_farms = db.query(models.Farm).filter(models.Farm.state == state).all()
     if not db_farms:
         raise HTTPException(status_code=404, detail="Farm not found.")
@@ -33,6 +55,13 @@ def get_farms_by_state(db: Session, state: str):
 
 
 def get_farms_by_capacity_range(db: Session, min_capacity: float, max_capacity: float):
+    """
+    Returns all Farms that have generated energy within the given range
+    :param db: database connection
+    :param min_capacity: The beginning of the specified range
+    :param max_capacity: The end of the specified range
+    :return: List of all Farms in the given generated energy range
+    """
     db_farms = db.query(models.Farm)
     if min_capacity is not None and max_capacity is not None:
         if min_capacity >= max_capacity:
@@ -50,6 +79,12 @@ def get_farms_by_capacity_range(db: Session, min_capacity: float, max_capacity: 
 
 
 def get_farm_max_month(db: Session, farm_id: int):
+    """
+    Calculates the monthly energy totals for the given Farm ID and returns the month with the highest total
+    :param db: database connection
+    :param farm_id: The numeric Farm ID
+    :return: The month with the highest energy generated total.
+    """
     results = (
         db.query(
             extract("year", models.DailyEnergy.date).label("year"),
@@ -73,6 +108,10 @@ def get_farm_max_month(db: Session, farm_id: int):
 
 
 def load_farms_bulk(db: Session):
+    """
+    Populates the Farms table in the db with info from the JSON file
+    :param db: database connection
+    """
     with open("projects.json", "r") as f:
         data = json.load(f)
     db.bulk_insert_mappings(models.Farm, data)
@@ -80,6 +119,10 @@ def load_farms_bulk(db: Session):
 
 
 def load_daily_energy(db: Session):
+    """
+    Populates the DailyEnergy table in the db with info from the CSV files.
+    :param db: database connection
+    """
     for filename in os.listdir("generation_data"):
         farm_id = int(filename.split("_")[0])
         with open("generation_data/{}".format(filename), mode="r") as csv_file:
