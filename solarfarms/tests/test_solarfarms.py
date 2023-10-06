@@ -172,3 +172,20 @@ def test_get_farms_btw_max_and_min_capacity_min_gt_max():
     with TestClient(app) as client:
         response = client.get("/farms/?min_capacity=1000&max_capacity=500")
         assert response.status_code == 400
+
+
+def test_get_farm_max_month():
+    with TestClient(app) as client:
+        response = client.get("/farms/31/maxmonth")
+        assert response.status_code == 200
+        assert response.json() == {
+            "year": 2018,
+            "month": 6,
+            "month_total": 576964.4263453905,
+        }
+
+
+def test_get_farm_max_month_farm_not_found():
+    with TestClient(app) as client:
+        response = client.get("/farms/99/maxmonth")
+        assert response.status_code == 404

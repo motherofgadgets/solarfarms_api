@@ -23,6 +23,7 @@ async def startup_event():
     try:
         if crud.get_farm_count(db) == 0:
             crud.load_farms_bulk(db)
+        if crud.get_daily_energy_count(db) == 0:
             crud.load_daily_energy(db)
     finally:
         db.close()
@@ -49,3 +50,9 @@ async def filter_farms(
         return crud.get_farms_by_state(db, state)
     if min_capacity is not None or max_capacity is not None:
         return crud.get_farms_by_capacity_range(db, min_capacity, max_capacity)
+
+
+@app.get("/farms/{farm_id}/maxmonth/")
+async def get_farm_max_month(farm_id: int, db: Session = Depends(get_db)):
+    db_farm = crud.get_farm_max_month(db, farm_id)
+    return db_farm
