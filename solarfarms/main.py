@@ -1,7 +1,7 @@
 from fastapi import Depends, FastAPI, Query
 from sqlalchemy.orm import Session
 
-from solarfarms import crud, models
+from solarfarms import crud, models, schemas
 from solarfarms.database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
@@ -34,12 +34,20 @@ async def root():
     return {"message": "Welcome to the Solar Farms Application!"}
 
 
-@app.get("/farms/{farm_id}", responses={404: {"detail": "Farm not found."}})
+@app.get(
+    "/farms/{farm_id}",
+    response_model=schemas.Farm,
+    responses={404: {"detail": "Farm not found."}},
+)
 async def get_farm_by_id(farm_id: int, db: Session = Depends(get_db)):
     return crud.get_farm(db, farm_id)
 
 
-@app.get("/farms/")
+@app.get(
+    "/farms/",
+    response_model=schemas.Farm,
+    responses={404: {"detail": "Farm not found."}},
+)
 async def filter_farms(
     state: str = Query(None),
     min_capacity: float = Query(None),
@@ -52,7 +60,7 @@ async def filter_farms(
         return crud.get_farms_by_capacity_range(db, min_capacity, max_capacity)
 
 
-@app.get("/farms/{farm_id}/maxmonth/")
+@app.get("/farms/{farm_id}/maxmonth/", response_model=schemas.MaxMonth)
 async def get_farm_max_month(farm_id: int, db: Session = Depends(get_db)):
     db_farm = crud.get_farm_max_month(db, farm_id)
     return db_farm

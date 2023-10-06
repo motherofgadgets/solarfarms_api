@@ -24,3 +24,9 @@ class DailyEnergy(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class MaxMonth(BaseModel):
+    year: int
+    month: int
+    month_total: float
