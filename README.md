@@ -3,7 +3,11 @@ An API that returns details about solar farms
 
 # Overview
 
-# TODO: Overview goes here
+This project is a FastAPI backend that can provide the following details about Solar Farms:
+- The details of a farm
+- The list of farms in a given state
+- The list of all farms with a kilowatt capacity in a given range
+- The month that a given farm had generated the maximum amount of energy.
 
 ---
 
