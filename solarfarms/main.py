@@ -1,5 +1,6 @@
 from fastapi import Depends, FastAPI, Query
 from sqlalchemy.orm import Session
+from typing import List
 
 from solarfarms import crud, models, schemas
 from solarfarms.database import SessionLocal, engine
@@ -45,7 +46,7 @@ async def get_farm_by_id(farm_id: int, db: Session = Depends(get_db)):
 
 @app.get(
     "/farms/",
-    response_model=schemas.Farm,
+    response_model=List[schemas.Farm],
     responses={404: {"detail": "Farm not found."}},
 )
 async def filter_farms(
