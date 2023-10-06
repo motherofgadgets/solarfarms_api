@@ -50,7 +50,7 @@ async def get_farm_by_id(farm_id: int, db: Session = Depends(get_db)):
     responses={404: {"detail": "Farm not found."}},
 )
 async def filter_farms(
-    state: str = Query(None),
+    state: str = Query(None, min_length=2, max_length=2, regex="^[A-Z]{2}$"),
     min_capacity: float = Query(None),
     max_capacity: float = Query(None),
     db: Session = Depends(get_db),
