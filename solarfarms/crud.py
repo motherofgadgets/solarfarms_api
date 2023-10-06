@@ -63,15 +63,15 @@ def get_farms_by_capacity_range(db: Session, min_capacity: float, max_capacity: 
     :return: List of all Farms in the given generated energy range
     """
     db_farms = db.query(models.Farm)
-    if min_capacity is not None and max_capacity is not None:
+    if min_capacity is not None and max_capacity is not None:  # if both values are specified
         if min_capacity >= max_capacity:
             raise HTTPException(
                 status_code=400, detail="min_capacity should be less than max_capacity"
             )
     if min_capacity is not None:
-        db_farms = db_farms.filter(models.Farm.capacity_kw >= min_capacity)
+        db_farms = db_farms.filter(models.Farm.capacity_kw >= min_capacity)  # filter by capacity above minimum
     if max_capacity is not None:
-        db_farms = db_farms.filter(models.Farm.capacity_kw <= max_capacity)
+        db_farms = db_farms.filter(models.Farm.capacity_kw <= max_capacity)  # filter by capacity below maximum
     results = db_farms.all()
     if not results:
         raise HTTPException(status_code=404, detail="Farms not found.")

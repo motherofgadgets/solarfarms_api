@@ -29,9 +29,9 @@ async def startup_event():
     """
     db = SessionLocal()
     try:
-        if crud.get_farm_count(db) == 0:
+        if crud.get_farm_count(db) == 0:  # Check farms table for any entries
             crud.load_farms_bulk(db)
-        if crud.get_daily_energy_count(db) == 0:
+        if crud.get_daily_energy_count(db) == 0:  # Check daily energy table for any entries
             crud.load_daily_energy(db)
     finally:
         db.close()
