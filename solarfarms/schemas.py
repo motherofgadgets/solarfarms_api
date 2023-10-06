@@ -1,5 +1,6 @@
 from datetime import date
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from typing import Optional
 
 
 class Farm(BaseModel):
@@ -16,6 +17,7 @@ class Farm(BaseModel):
 
 
 class DailyEnergy(BaseModel):
+    id: Optional[int] = Field(default=None)
     farm_id: int
     date: date
     kw_total: float

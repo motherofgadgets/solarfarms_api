@@ -23,6 +23,7 @@ class DailyEnergy(Base):
 
     __tablename__ = "daily_energy"
 
+    id = Column(Integer, primary_key=True)
     farm_id = Column(Integer, ForeignKey("farms.id"))
     date = Column(Date)
     kw_total = Column(Float)

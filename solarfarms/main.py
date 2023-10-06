@@ -23,6 +23,7 @@ async def startup_event():
     try:
         if crud.get_farm_count(db) == 0:
             crud.load_farms_bulk(db)
+            crud.load_daily_energy(db)
     finally:
         db.close()
 

@@ -1,3 +1,5 @@
+import csv
+import os
 import json
 
 from fastapi import HTTPException
@@ -24,7 +26,7 @@ def get_farms_by_state(db: Session, state: str):
     return db_farms
 
 
-def get_farms_by_capacity_range(db: Session, min_capacity: int, max_capacity: int):
+def get_farms_by_capacity_range(db: Session, min_capacity: float, max_capacity: float):
     db_farms = db.query(models.Farm)
     if min_capacity is not None and max_capacity is not None:
         if min_capacity >= max_capacity:
@@ -46,3 +48,18 @@ def load_farms_bulk(db: Session):
         data = json.load(f)
     db.bulk_insert_mappings(models.Farm, data)
     db.commit()
+
+
+def load_daily_energy(db: Session):
+    for filename in os.listdir("generation_data"):
+        farm_id = int(filename.split("_")[0])
+        with open("generation_data/{}".format(filename), mode='r') as csv_file:
+            csv_reader = csv.DictReader(csv_file)
+            for row in csv_reader:
+                new_daily_energy = models.DailyEnergy(
+                    farm_id=farm_id,
+                    date=row['ts'],
+                    kw_total=row['total']
+                )
+                db.add(new_daily_energy)
+            db.commit()
